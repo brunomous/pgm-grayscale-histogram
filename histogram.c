@@ -6,14 +6,21 @@ void histogram(unsigned char *lbpMtr, int rows, int cols, FILE *hFile) {
 	unsigned short int k = 0;
 	unsigned int frq = 0;
 
-	for(k=0; k<256; k++) {
+	for (k=0; k<256; k++) {
 		frq = 0;
-		for(i=0; i<(rows-2); i++) {
-			for(j=0; j<(cols-2); j++) {
-				if(*(lbpMtr+(i*cols)+j) == k) frq++;
+
+		for (i=0; i<(rows-2); i++) {
+			for (j=0; j<(cols-2); j++) {
+				if (*(lbpMtr+(i*cols)+j) == k) {
+					frq++;
+				}
 			}
 		}
-		if(frq == 0) continue;
+
+		if (frq == 0) {
+			continue;
+		}
+
 		fprintf(hFile, "[%3hu]: %d\n", k, frq);
 	}
 }

@@ -17,15 +17,17 @@ int main(int argc, char **argv) {
 
 	start = clock();
 
-	if(argc!=2) {
+	if (argc != 2) {
 		printf("Use: %s image_name.pgm\n", *argv);
 		exit(1);
 	}
-	if(!(arq = fopen(*(argv+1), "rb"))) {
+
+	if (!(arq = fopen(*(argv+1), "rb"))) {
 		printf("Unavailable image.\n");
 		exit(1);
 	}
-	if(!(arqHist = fopen("histogram.txt", "w"))) {
+
+	if (!(arqHist = fopen("histogram.txt", "w"))) {
 		printf("Unavailable histogram file.\n");
 		exit(1);
 	}
@@ -33,7 +35,8 @@ int main(int argc, char **argv) {
 	fgets(img.key, 3, arq);
 	fseek(arq, 3, SEEK_SET);
 	fgets(comment, sizeof(comment), arq);
-	if(comment[0] == '#') {
+
+	if (comment[0] == '#') {
 		fscanf(arq, "%hu %hu %hhu", &img.rows, &img.cols, &img.max);        	
 	} else {
 		fseek(arq, 2, SEEK_SET);
@@ -43,23 +46,24 @@ int main(int argc, char **argv) {
 	lbpMtr = (unsigned char *) malloc((img.rows-2)*(img.cols-2)*sizeof(unsigned char));
 	img.imgMtr = (unsigned char *) malloc(img.rows*img.cols*sizeof(unsigned char));
 	
-	if(!(lbpMtr) || !(img.imgMtr)) {
+	if (!(lbpMtr) || !(img.imgMtr)) {
 		printf("Impossible allocation.\n");
 		exit(1);
 	}
 
-	if(!strcmp(img.key, "P2")) {
+	if (!strcmp(img.key, "P2")) {
 		for (i=0; i<img.rows; i++){
-	    	for(j=0; j<img.cols; j++){
-	        	fscanf(arq, "%hhu", (img.imgMtr+(i*img.cols)+j));
-	    	} 
+			for (j=0; j<img.cols; j++){
+				fscanf(arq, "%hhu", (img.imgMtr+(i*img.cols)+j));
+			}
 		}
 	}
-	if(!strcmp(img.key, "P5")) {
+
+	if (!strcmp(img.key, "P5")) {
 		for (i=0; i<img.rows; i++){
-	    	for(j=0; j<img.cols; j++){
-	    		fread((img.imgMtr+(i*img.cols)+j), 1, 1, arq);
-	    	}
+			for (j=0; j<img.cols; j++){
+				fread((img.imgMtr+(i*img.cols)+j), 1, 1, arq);
+			}
 		}
 	}
 
