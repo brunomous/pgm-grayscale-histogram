@@ -1,0 +1,7 @@
+# Test Files
+/images
+
+# Output Files
+*.o
+*.e
+*.txt
